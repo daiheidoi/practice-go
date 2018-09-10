@@ -1,0 +1,8 @@
+# VSCode
+.vscode
+
+# mount dir
+/redis/*
+/mysql/*
+
+!.gitkeep

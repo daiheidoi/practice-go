@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: practice-go-db
+    environment:
+      MYSQL_DATABASE: practice-go
+      MYSQL_ROOT_PASSWORD: hogehoge
+      TZ: 'Asia/Tokyo'
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./conf/mysql:/etc/mysql/conf.d
+
+  api:
+    container_name: practice-go-api
+    build: 
+      context: ./
+      dockerfile: ./docker/api/Dockerfile
+    volumes:
+      - ./src/app:/go/src/app
+      - /go/src/app/vendor
+    ports:
+      - 3001:3001
+    depends_on:
+      - db
+      - redis
+
+  redis:
+    container_name: practice-go-redis
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./docker/redis/Dockerfile
+    volumes:
+       - ./redis:/data
+    ports:
+       - 6379:6379
+    command: redis-server --appendonly yes
