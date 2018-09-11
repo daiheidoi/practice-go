@@ -21,7 +21,7 @@ services:
       dockerfile: ./docker/api/Dockerfile
     volumes:
       - ./src/app:/go/src/app
-      - /go/src/app/vendor
+      - /go/src/app/vendor/
     ports:
       - 3001:3001
     depends_on:
